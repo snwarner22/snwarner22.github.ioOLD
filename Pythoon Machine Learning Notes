@@ -1,0 +1,36 @@
+#Function to plot Pie-Charts for all categorical variables in the dataframe
+def pie_charts_for_CategoricalVar(df_pie,m):
+    '''Takes in a dataframe(df_pie) and plots pie charts for all categorical columns. m = number of columns required in grid'''
+    
+    #get all the column names in the dataframe
+    a = []
+    for i in df_pie:
+        a.append(i)
+    
+    #isolate the categorical variable names from a to b
+    b = []
+    for i in a:
+        if (df[i].dtype.name) == 'category':
+            b.append(i)
+        
+    plt.figure(figsize=(15, 12))
+    plt.subplots_adjust(hspace=0.2)
+    plt.suptitle("Pie-Charts for Categorical Variables in the dataframe", fontsize=18, y=0.95)
+    
+    # number of columns, as inputted while calling the function
+    ncols = m
+    # calculate number of rows
+    nrows = len(b) // ncols + (len(b) % ncols > 0)
+    
+    # loop through the length of 'b' and keep track of index
+    for n, i in enumerate(b):
+        # add a new subplot iteratively using nrows and ncols
+        ax = plt.subplot(nrows, ncols, n + 1)
+
+        # filter df and plot 'i' on the new subplot axis
+        df.groupby(i).size().plot(kind='pie', autopct='%.2f%%',ax=ax)
+        
+        ax.set_title(i.upper())
+        ax.set_xlabel("")
+        ax.set_ylabel("")
+    plt.show()
